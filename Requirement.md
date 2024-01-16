@@ -87,7 +87,7 @@ Actors:-
 4. Programme Committee/Organizer
 
    
-![image](https://github.com/SauravB210489CS/selab23_basics/assets/155982778/1c2726fc-f33d-4bf8-b674-7852f1463f54)
+
 
 
 
