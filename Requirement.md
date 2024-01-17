@@ -15,38 +15,38 @@ The website will focus on handling the submission and evaluation process for pap
 - Clicking the CFP button will redirect the user to a login page.
 
 ## 2.2 User Authentication
- 2.2.1 new user can register to the speaker website using social media account i.e. google account.
+- new user can register to the speaker website using social media account i.e. google account.
  
- 2.2.2 user should  login through their credentials.If credentials are valid ,redirect to CFP Dashboard.
+- user should  login through their credentials.If credentials are valid ,redirect to CFP Dashboard.
  
 
 ## 2.3 Speaker Submission
 
- 2.3.1 Authenticated speakers can submit abstracts through a form.
+ - Authenticated speakers can submit abstracts through a form.
 
- 2.3.2 The form will include fields for title, abstract, author information, and keywords.
+ - The form will include fields for title, abstract, author information, and keywords.
 
- 2.3.3 Speakers can upload supporting documents, such as research papers or presentations.
+ - Speakers can upload supporting documents, such as research papers or presentations.
 
 
 ## 2.4 Logout Functionality
 
-2.4.1 user can logout by clicking on logout button in CFP Dashboard.
+- user can logout by clicking on logout button in CFP Dashboard.
 
 
 # 3. Non-functional Requirements
    
 ## 3.1 Security
 
- 3.1.1 User authentication must be secure and protect user data.
+ - User authentication must be secure and protect user data.
 
- 3.1.2 The system should have role-based access control to ensure data privacy.
+ - The system should have role-based access control to ensure data privacy.
 
 ## 3.2 Performance
 
- 3.2.1 The system should handle simultaneous submissions and reviews efficiently.
+- The system should handle simultaneous submissions and reviews efficiently.
 
- 3.2.2 Response times for user interactions should be minimal.
+ - Response times for user interactions should be minimal.
 
 
 # 4. Diagrams
