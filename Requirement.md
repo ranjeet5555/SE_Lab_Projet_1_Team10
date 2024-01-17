@@ -57,4 +57,4 @@ The website will focus on handling the submission and evaluation process for pap
 
 # 4. Diagrams
 
-![WhatsApp Image 2024-01-16 at 07 43 08_0099fc45](https://github.com/karan-nitc-cse/SE_Lab_10/assets/153089962/c964677d-6cae-436d-92ae-ef9e8ddfbf94)
+![WhatsApp Image 2024-01-18 at 1 29 00 AM](https://github.com/karan-nitc-cse/SE_Lab_Projet_1_Team10/assets/153089962/04616dad-7f56-45d3-85ad-cf51bbe3c981)
