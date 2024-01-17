@@ -12,7 +12,7 @@ The website will focus on handling the submission and evaluation process for pap
 
 - The website will feature a prominent "Call for Papers" (CFP) button on the homepage.
 
- 2.1.2 Clicking the CFP button will redirect the user to a login page.
+- Clicking the CFP button will redirect the user to a login page.
 
 ## 2.2 User Authentication
  2.2.1 new user can register to the speaker website using social media account i.e. google account.
