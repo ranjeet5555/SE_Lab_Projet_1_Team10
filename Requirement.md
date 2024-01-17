@@ -10,7 +10,7 @@ The website will focus on handling the submission and evaluation process for pap
    
 ## 2.1 Call for Papers (CFP)
 
-   2.1.1 The website will feature a prominent "Call for Papers" (CFP) button on the homepage.
+   + The website will feature a prominent "Call for Papers" (CFP) button on the homepage.
 
  2.1.2 Clicking the CFP button will redirect the user to a login page.
 
