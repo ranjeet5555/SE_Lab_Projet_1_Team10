@@ -28,6 +28,7 @@ The website will focus on handling the submission and evaluation process for pap
 ### 2.3.2 Submission
 
 - user can upload their new abstract.
+- user can make maximum 5 submissions.
 - user can view their previous submissions.
 - user is provided with the current status of their latest submission, if any.
 
