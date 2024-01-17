@@ -20,19 +20,24 @@ The website will focus on handling the submission and evaluation process for pap
 - user should  login through their credentials.If credentials are valid ,redirect to CFP Dashboard.
  
 
-## 2.3 Speaker Submission
+## 2.3 Dashboard
 
- - Authenticated speakers can submit abstracts through a form.
+ ### 2.3.1 Profile
+ - user can update/edit/view thier details by clicking profile button.
 
- - The form will include fields for title, abstract, author information, and keywords.
+### 2.3.2 Submission
 
- - Speakers can upload supporting documents, such as research papers or presentations.
+- user can upload their new abstract.
+- user can view their previous submissions.
+- user is provided with the current status of their latest submission, if any.
 
+### 2.3.3 Reviews
 
-## 2.4 Logout Functionality
-
-- user can logout by clicking on logout button in CFP Dashboard.
-
+- The user is given a list of comments provided by the reviewer assigned.
+- The user is also provided with contact information of the reviewer
+  
+### 2.3.4 Logout 
+- user can logout by using logout button.
 
 # 3. Non-functional Requirements
    
