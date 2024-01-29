@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CFP Dashboard</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-DE4dy5LbC9MpDSt/iGzIwjCezRUp6gk5A4lLk6kwT5Y2vzlw7Wo3B6gJ0tbWKh2z+6KOw1kZC7XkW+5lXarVtA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #fff;
+      overflow-x: hidden;
+    }
+
+    header {
+      background-color: #333;
+      color: #fff;
+      padding: 10px;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    header img {
+      max-height: 40px;
+    }
+
+    nav {
+      background-color: #333;
+      padding: 20px 10px;
+      text-align: center;
+      position: fixed;
+      height: 100%;
+      width: 200px;
+      overflow: auto;
+    }
+
+    nav button {
+      margin-bottom: 10px;
+      padding: 15px;
+      font-size: 16px;
+      cursor: pointer;
+      background-color: #555;
+      color: #fff;
+      border: none;
+      width: 100%;
+      text-align: left;
+      transition: background-color 0.3s ease;
+    }
+
+    nav button:hover {
+      background-color: #777;
+    }
+
+    section {
+      margin-left: 200px;
+      padding: 20px;
+    }
+
+    footer {
+      background-color: #333;
+      color: #fff;
+      padding: 10px;
+      text-align: center;
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <img src="https://via.placeholder.com/150" alt="CFP Logo"> <!-- Replace with your logo URL -->
+    <h1>CFP Dashboard</h1>
+  </header>
+
+  <nav>
+    <button onclick="showProfile()"><i class="fas fa-user"></i> Profile</button>
+    <button onclick="showUpload()"><i class="fas fa-cloud-upload-alt"></i> Upload</button>
+    <button onclick="showSubmission()"><i class="fas fa-file-alt"></i> Submission</button>
+    <button onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</button>
+  </nav>
+
+  <section id="profile" style="display:none;">
+    <h2>Profile Section</h2>
+    <!-- Add profile content here -->
+  </section>
+
+  <section id="upload" style="display:none;">
+    <h2>Upload Section</h2>
+    <!-- Add upload content here -->
+  </section>
+
+  <section id="submission" style="display:none;">
+    <h2>Submission Section</h2>
+    <!-- Add submission content here -->
+  </section>
+
+  <footer>
+    &copy; 2024 CFP Dashboard
+  </footer>
+
+  <script>
+    function showProfile() {
+      hideAllSections();
+      document.getElementById('profile').style.display = 'block';
+    }
+
+    function showUpload() {
+      hideAllSections();
+      document.getElementById('upload').style.display = 'block';
+    }
+
+    function showSubmission() {
+      hideAllSections();
+      document.getElementById('submission').style.display = 'block';
+    }
+
+    function logout() {
+      // Add logout functionality here
+      alert('Logout clicked. Add your logout logic.');
+    }
+
+    function hideAllSections() {
+      document.getElementById('profile').style.display = 'none';
+      document.getElementById('upload').style.display = 'none';
+      document.getElementById('submission').style.display = 'none';
+    }
+  </script>
+</body>
+</html>
