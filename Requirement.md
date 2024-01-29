@@ -18,12 +18,14 @@ The website will focus on handling the submission and evaluation process for pap
 - new user can register to the speaker website using social media account i.e. google account.
  
 - user should  login through their credentials.If credentials are valid ,redirect to CFP Dashboard.
+
+- User can request for reset password, via clicking on forgate password option.
  
 
 ## 2.3 Dashboard
 
  ### 2.3.1 Profile
- - user can update/edit/view thier details by clicking profile button.
+ - user can update/edit/view thier details like Firstname,Lastname ,phone number and Email by clicking profile button.
 
 ### 2.3.2 Submission
 
@@ -38,7 +40,7 @@ The website will focus on handling the submission and evaluation process for pap
 - The user is also provided with contact information of the reviewer
   
 ### 2.3.4 Logout 
-- user can logout by using logout button.
+- user can logout by clicking on logout button.
 
 # 3. Non-functional Requirements
    
@@ -54,6 +56,23 @@ The website will focus on handling the submission and evaluation process for pap
 
  - Response times for user interactions should be minimal.
 
+## 4 Software Quality Attribute
+
+  ### 4.1 Reliability
+
+   - The system will not lag and will provide accurate results to all the users.
+
+  ### 4.2 Maintainbility
+
+   - In case of any errors , it can be rectify by developer due to the ease of maintenance
+
+ ### 4.3 Portability
+
+   - The system can be accessed by smartphone and Laptop
+
+ ### 4.4 Adaptibility
+
+  - The system is open source so system can be extended to other organizations as well.
 
 # 4. Diagrams
 
