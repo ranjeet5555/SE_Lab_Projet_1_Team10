@@ -27,7 +27,6 @@ public class RegisterServlet extends HttpServlet {
 			
 //			System.out.println(name+" "+email+" "+phone+" "+password+" "+check); 
 			
-			
 			User us = new  User();
 			us.setName(name);
 			us.setEmail(email);
