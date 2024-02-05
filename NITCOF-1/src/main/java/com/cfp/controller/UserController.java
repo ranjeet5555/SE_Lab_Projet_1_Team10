@@ -21,6 +21,32 @@ public class UserController {
     private UserService service;
 
     @GetMapping("/")
+    public String homepage(){
+        return "home"
+    }
+
+    @GetMapping("/edituser/{id}")
+    public String edit(@PathVariable int id, Model m){
+        User user = service.getuserById(id);
+        m.addAttribute(attributeName: "emp", emp);
+        return "edit_user";
+    }
+
+    @GetMapping("/updateuserDetails")
+    public String updateuser(@ModelAttribute User user, HttpSession session){
+        User updateuser = service.saveUser(user);
+
+        if(updateuser != null){
+            session.setAttribute(name: "msg", value: "Update successfully");
+        }
+        else{
+            session.setAttribute(name: "msg", value: "something wrong on server");
+        }
+
+        return "redirect:/";
+    }
+    
+    @GetMapping("/signup")
     public String register(@org.jetbrains.annotations.NotNull Model model){
         User user=new User();
         model.addAttribute("user",user);
