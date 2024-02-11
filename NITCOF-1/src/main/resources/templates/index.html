@@ -1,73 +1,57 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="https://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login Page</title>
+  <title>Your Homepage</title>
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
   <style>
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #f5f5f5;
-      margin: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
+        font-family: 'Roboto', sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f8f9fa;
     }
 
-    .container {
-      background-color: #fff;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-      width: 400px;
-      text-align: center;
+    header {
+        background-color: #343a40;
+        color: white;
+        padding: 15px 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
     }
 
-    h2 {
-      color: #333;
-      margin-bottom: 20px;
+    #logo {
+        font-size: 24px;
+        font-weight: bold;
     }
 
-    button {
-      padding: 10px 20px;
-      background-color: #4285f4;
-      color: #fff;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
-
-    button:hover {
-      background-color: #3b79db;
-    }
-
-    /* Responsive design for smaller screens */
-    @media screen and (max-width: 600px) {
-      .container {
-        width: 90%;
-      }
+    #login-btn, #register-btn {
+        padding: 10px 20px;
+        margin-left: 10px;
     }
   </style>
 </head>
 <body>
 
-  <div class="container">
-    <h2>Login</h2>
-    <!-- Add your regular login form fields here (username, password, etc.) -->
-
-    <!-- Google Login Button -->
-   <a href="/" th:href="@{/login}"><button type="submit" class="btn btn-primary">login</button></a>
+<header>
+  <div id="logo">NITCONF</div>
+  <div>
+    <a href="/" th:href="@{/login}" class="btn btn-success" id="login-btn">Login</a>
+    <a href="/" th:href="@{/signup}" class="btn btn-primary" id="register-btn">Register</a>
   </div>
+</header>
 
-  <script>
-    function loginWithGoogle() {
-      // In a real implementation, you would use Google OAuth API
-      // This is a simplified example
-      alert("Perform Google OAuth Login");
-    }
-  </script>
+<!-- Your homepage content goes here -->
 
+<!-- Bootstrap JS and Popper.js -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
+

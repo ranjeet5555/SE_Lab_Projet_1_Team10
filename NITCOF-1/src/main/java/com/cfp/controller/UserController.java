@@ -24,7 +24,7 @@ public class UserController {
 
     @GetMapping("/")
     public String homepage(){
-        return "home";
+        return "index";
     }
 
     @GetMapping("/edituser/{id}")

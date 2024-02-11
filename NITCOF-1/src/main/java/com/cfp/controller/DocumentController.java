@@ -23,11 +23,11 @@ import java.util.Optional;
 public class DocumentController {
     @Autowired
     private DocumentRepository repo;
-    @GetMapping("/myUploads")
+    @GetMapping("/uploadhere")
     public String uploadDocument(@NotNull Model model){
         List<Document> listDocs=repo.findAll();
         model.addAttribute("listDocs",listDocs);
-        return "home";
+        return "uploadedDoc";
 
     }
     @PostMapping("/upload")
@@ -39,8 +39,9 @@ public class DocumentController {
         document.setSize(multipartFile.getSize());
         repo.save(document);
         ra.addFlashAttribute("message","The file has been uploaded successfully");
-        return "redirect:/";
+        return "redirect:/uploadhere";
     }
+    @GetMapping("/downloaddoc")
     public void downloadFile(@Param("id") Long id, HttpServletResponse response) throws Exception {
         Optional<Document> result=repo.findById(id);
         if(result.isEmpty()){

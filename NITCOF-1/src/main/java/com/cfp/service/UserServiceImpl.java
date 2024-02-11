@@ -13,4 +13,14 @@ public class UserServiceImpl implements UserService {
     public void registerUser(User user) {
         repo.save(user);
     }
+
+    @Override
+    public User getuserById(int id) {
+        return null;
+    }
+
+    @Override
+    public User save(User user) {
+        return null;
+    }
 }
