@@ -17,11 +17,12 @@ import java.util.Optional;
 public class UserController {
 
     @Autowired
-    private UserRepo repo;
+    private UserService service;
     
     @Autowired
-    private UserService service;
+    private UserRepo repo;
 
+    
     /**
      * Redirects to the home page.
      *
@@ -32,6 +33,66 @@ public class UserController {
         return "home";
     }
 
+
+    /**
+     * Registers a new user.
+     *
+     * @param user User details to be registered.
+     * @return The name of the login view template.
+     */
+    @PostMapping("/registerUser")
+    public String registerAuthor(@ModelAttribute("user") User user) {
+        service.registerUser(user);
+        return "login";
+    }
+
+
+    /**
+     * Displays the registration form.
+     *
+     * @param model Model to add the user attribute for the view.
+     * @return The name of the register view template.
+     */
+    @GetMapping("/signup")
+    public String register(@NotNull Model model) {
+        User user = new User();
+        model.addAttribute("user", user);
+        return "register";
+    }
+
+
+    /**
+     * Displays the login form.
+     *
+     * @param model Model to add the user attribute for the view.
+     * @return The name of the login view template.
+     */
+    @GetMapping("/login")
+    public String login(@NotNull Model model) {
+        User user = new User();
+        model.addAttribute("user", user);
+        return "login";
+    }
+
+    
+    /**
+     * Authenticates the user based on the provided credentials.
+     *
+     * @param user User credentials for authentication.
+     * @return Redirects to "speaker_Dashboard" if authentication is successful, or "register" if authentication fails.
+     */
+    @PostMapping("/signing")
+    public String loginAuthor(@ModelAttribute("user") @NotNull User user) {
+        String userID = user.getUsername();
+        Optional<User> data = Optional.ofNullable(repo.findByusername(userID));
+        if (user.getPassword().equals(data.get().getPassword())) {
+            return "speaker_Dashboard";
+        } else {
+            return "register";
+        }
+    }
+
+    
     /**
      * Displays the form to edit user details.
      *
@@ -66,58 +127,4 @@ public class UserController {
         return "redirect:/";
     }
 
-    /**
-     * Displays the registration form.
-     *
-     * @param model Model to add the user attribute for the view.
-     * @return The name of the register view template.
-     */
-    @GetMapping("/signup")
-    public String register(@NotNull Model model) {
-        User user = new User();
-        model.addAttribute("user", user);
-        return "register";
-    }
-
-    /**
-     * Registers a new user.
-     *
-     * @param user User details to be registered.
-     * @return The name of the login view template.
-     */
-    @PostMapping("/registerUser")
-    public String registerAuthor(@ModelAttribute("user") User user) {
-        service.registerUser(user);
-        return "login";
-    }
-
-    /**
-     * Displays the login form.
-     *
-     * @param model Model to add the user attribute for the view.
-     * @return The name of the login view template.
-     */
-    @GetMapping("/login")
-    public String login(@NotNull Model model) {
-        User user = new User();
-        model.addAttribute("user", user);
-        return "login";
-    }
-
-    /**
-     * Authenticates the user based on the provided credentials.
-     *
-     * @param user User credentials for authentication.
-     * @return Redirects to "speaker_Dashboard" if authentication is successful, or "register" if authentication fails.
-     */
-    @PostMapping("/signing")
-    public String loginAuthor(@ModelAttribute("user") @NotNull User user) {
-        String userID = user.getUsername();
-        Optional<User> data = Optional.ofNullable(repo.findByusername(userID));
-        if (user.getPassword().equals(data.get().getPassword())) {
-            return "speaker_Dashboard";
-        } else {
-            return "register";
-        }
-    }
 }
