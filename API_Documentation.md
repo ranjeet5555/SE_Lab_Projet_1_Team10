@@ -179,6 +179,13 @@ Authenticates the user based on the provided credentials.
 
 ### Response
 
-- *Status Code:* 302 Found
+- *Status Code:* 200 ok
   - Redirect to "speaker_Dashboard" if authentication is successful.
   - Redirect to "register" if authentication fails.
+- *Body:* signing form
+
+## Signin User
+
+### Description
+
+Signin the user based on the provided credentials.
