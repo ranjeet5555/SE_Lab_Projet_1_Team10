@@ -130,19 +130,22 @@ None
 
 ### Endpoint
 
-- *POST* /registerUser
+- **POST** `/registerUser`
 
-### Description
+## Description
 
 Registers a new user.
 
-### Request
+## Request
 
-- *ModelAttribute:* user (User) - User details to be registered.
+- **ModelAttribute:** `user` (User) - User details to be registered.
 
-### Response
+## Response
 
-- *Status Code:* 302 Found (redirect to login)
+- **Status Code:** `201 Created` - User successfully registered.
+- **Status Code:** `400 Bad Request` - Invalid user data provided.
+- **Status Code:** `500 Internal Server Error` - Server encountered an unexpected condition.
+
 
 ## Login
 
