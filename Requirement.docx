@@ -13,7 +13,7 @@
       * Clicking the CFP button will redirect the user to a login page.
 
    2.2 User Authentication
-      * New users can register for the speaker website using a social media account, i.e., Google account.
+      * New users can register for the speaker website by clicking register button.
       * Users should log in through their credentials. If credentials are valid, redirect to CFP Dashboard.
       * Users can request a password reset by clicking on the "forgot password" option.
  
