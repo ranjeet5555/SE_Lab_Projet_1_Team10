@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
@@ -19,19 +20,20 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-@Controller
+@RestController
+//@RestController
 public class DocumentController {
     @Autowired
     private DocumentRepository repo;
     @GetMapping("/uploadhere")
-    public String uploadDocument(@NotNull Model model){
+    public Object uploadDocument(@NotNull Model model){
         List<Document> listDocs=repo.findAll();
         model.addAttribute("listDocs",listDocs);
-        return "uploadedDoc";
+        return new ModelAndView("uploadedDoc");
 
     }
     @PostMapping("/upload")
-    public String uploadFile(@RequestParam("document") @NotNull MultipartFile multipartFile, @NotNull RedirectAttributes ra ) throws IOException {
+    public Object uploadFile(@RequestParam("document") @NotNull MultipartFile multipartFile, @NotNull RedirectAttributes ra ) throws IOException {
         String filename= StringUtils.cleanPath(Objects.requireNonNull(multipartFile.getOriginalFilename()));
         Document document=new Document();
         document.setName(filename);
@@ -39,7 +41,7 @@ public class DocumentController {
         document.setSize(multipartFile.getSize());
         repo.save(document);
         ra.addFlashAttribute("message","The file has been uploaded successfully");
-        return "redirect:/uploadhere";
+        return new ModelAndView("redirect:/uploadhere");
     }
     @GetMapping("/downloaddoc")
     public void downloadFile(@Param("id") Long id, HttpServletResponse response) throws Exception {

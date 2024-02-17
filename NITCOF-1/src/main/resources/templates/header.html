@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Header</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .header {
+            background-color: #343a40;
+            padding: 10px 0;
+        }
+
+        .btn-header {
+            margin-right: 10px;
+            color: #fff;
+        }
+
+        .btn-header:hover {
+            color: #fff;
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+
+        .btn-header:focus {
+            color: #fff;
+            background-color: #0056b3;
+            border-color: #004682;
+            box-shadow: 0 0 0 0.2rem rgba(0,123,255,.5);
+        }
+    </style>
+</head>
+
+<body>
+<div class="header container">
+    <a th:href="@{/upload}" class="btn btn-primary btn-header">Upload</a>
+    <a th:href="@{/submissions}" class="btn btn-primary btn-header">Submissions</a>
+    <form id="logoutForm" action="/logout" method="post">
+        <button type="submit" class="btn btn-primary btn-header">Logout</button>
+    </form>
+</div>
+</body>
+
+</html>

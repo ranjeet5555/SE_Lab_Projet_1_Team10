@@ -72,6 +72,9 @@
 <div class="login-container">
     <h2>Welcome to</h2>
     <h2 style="color: #1a1a1a;">Speaker Dashboard</h2>
+    <div th:if="${session.message2}" class="alert alert-danger">
+        <p th:text="${session.message2}"></p>
+    </div>
     <form method="post" th:action="@{/signing}" th:object="${user}">
         <label>
             <input type="text" th:field="*{username}" name="username" placeholder="Username" required>

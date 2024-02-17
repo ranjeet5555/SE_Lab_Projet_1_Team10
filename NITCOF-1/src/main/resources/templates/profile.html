@@ -1,0 +1,78 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile - Speaker Dashboard</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background: #B4D4FF;
+        }
+
+        .profile-container {
+            background: linear-gradient(90deg, #2980b9, #2c3e50);
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 400px;
+            width: 100%;
+            color: #fff;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+        }
+
+        .user-detail {
+            margin-bottom: 10px;
+            text-align: left;
+        }
+
+        .user-detail label {
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="profile-container">
+    <h2>User Profile</h2>
+    <div class="user-detail">
+        <label>Username:</label>
+        <span th:text="${user.username}"></span>
+    </div>
+    <div class="user-detail">
+        <label>Name:</label>
+        <span th:text="${user.name}"></span>
+    </div>
+    <div class="user-detail">
+        <label>Phone:</label>
+        <span th:text="${user.phone}"></span>
+    </div>
+    <div class="user-detail">
+        <label>Email:</label>
+        <span th:text="${user.email}"></span>
+    </div>
+    <form id="logoutForm" action="/logout" method="post">
+        <button type="submit">Logout</button>
+    </form>
+
+    <a th:href="@{/updateProfile}" class="btn-update-profile">Update Profile</a>
+</div>
+
+</body>
+
+</html>
+

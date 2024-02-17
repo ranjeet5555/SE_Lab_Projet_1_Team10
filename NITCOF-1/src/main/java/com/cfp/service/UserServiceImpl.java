@@ -14,13 +14,14 @@ public class UserServiceImpl implements UserService {
         repo.save(user);
     }
 
-    @Override
-    public User getuserById(int id) {
-        return null;
-    }
 
     @Override
     public User save(User user) {
-        return null;
+        return repo.save(user);
+    }
+
+    @Override
+    public User getUserByUsername(String username) {
+        return repo.findByUsername(username);
     }
 }

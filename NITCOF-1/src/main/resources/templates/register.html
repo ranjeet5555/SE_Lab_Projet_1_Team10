@@ -72,6 +72,9 @@
 <div class="registration-container">
     <h2>Create an Account on</h2>
     <h2 style="color: #1a1a1a;">Speaker Dashboard</h2>
+    <div th:if="${session.message1}" class="alert">
+        <p th:text="${session.message1}"></p>
+    </div>
     <form th:action="@{/registerUser}" th:object="${user}" method="post" >
         <label>
             <input type="text" th:field="*{name}" name="name" placeholder="Name" required>
