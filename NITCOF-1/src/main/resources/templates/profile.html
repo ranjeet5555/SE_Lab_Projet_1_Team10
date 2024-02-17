@@ -69,7 +69,7 @@
         <button type="submit">Logout</button>
     </form>
 
-    <a th:href="@{/updateProfile}" class="btn-update-profile">Update Profile</a>
+    <a th:href="@{/updateProfile/{username}(username=${user.username})}" class="btn-update-profile">Update Profile</a>
 </div>
 
 </body>

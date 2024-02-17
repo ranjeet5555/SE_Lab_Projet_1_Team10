@@ -6,10 +6,12 @@ import com.cfp.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+//import jakarta.transaction.Transactional;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -19,6 +21,7 @@ import java.util.Optional;
 //@Controller
 @RestController
 public class UserController {
+    User currentuser = new User();
     @Autowired
     private UserRepo repo;
     @Autowired
@@ -42,22 +45,29 @@ public class UserController {
         return new ModelAndView("edit_user");
     }
 
+    @Transactional
     @PostMapping("/updateuserDetails")
-    public String updateUserDetails(@ModelAttribute User updatedUser) {
+    public Object updateUserDetails(@ModelAttribute User updatedUser) {
         // Save the updated user details
-        User savedUser = service.save(updatedUser);
-
+        //User savedUser = service.save(updatedUser);
+        repo.updateuser(updatedUser.getUsername(),updatedUser.getName(),updatedUser.getPhone(),updatedUser.getEmail());
         // Redirect to the profile page if the user details were successfully saved
-        if (savedUser != null) {
+        //if (savedUser != null) {
             // Redirect to the profile page
-            return "redirect:/profile";
-        } else {
+        Optional<User> userData = Optional.ofNullable(repo.findByUsername(updatedUser.getUsername()));
+        userData.ifPresent(user -> currentuser = user);
+            return new ModelAndView("redirect:/profile");
+        //} else {
             // If something went wrong, redirect to the edit profile page again with an error message
-            return "redirect:/edit_user/" + updatedUser.getUsername() + "?error=true";
-        }
+            //return new ModelAndView("redirect:/edit_user/" + updatedUser.getUsername() + "?error=true");
+       // }
     }
 
-
+    @GetMapping("/profile")
+    public Object getprofile(Model model){
+        model.addAttribute("user", currentuser);
+        return new ModelAndView("profile");
+    }
     @GetMapping("/signup")
     public Object register(Model model) {
         User user = new User();
@@ -95,6 +105,7 @@ public class UserController {
         if (userData.isPresent() && user.getPassword().equals(userData.get().getPassword())) {
             // If user exists and password matches, add user details to the model
             model.addAttribute("user", userData.get());
+            currentuser=userData.get();
             return new ModelAndView("profile");
         } else {
             // If user not found, set a message in session and redirect to login page
