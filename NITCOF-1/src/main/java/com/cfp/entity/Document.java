@@ -23,4 +23,7 @@ public class Document {
     private Date uploadTime;
     private byte[] content;
 
+
+
+
 }

@@ -75,7 +75,7 @@
     <div th:if="${session.message1}" class="alert">
         <p th:text="${session.message1}"></p>
     </div>
-    <form th:action="@{/registerUser}" th:object="${user}" method="post" >
+    <form id="registrationForm" th:action="@{/registerUser}" th:object="${user}" method="post" onsubmit="return validateForm()">
         <label>
             <input type="text" th:field="*{name}" name="name" placeholder="Name" required>
         </label>
@@ -89,15 +89,28 @@
             <input type="tel" th:field="*{phone}" name="mobile" placeholder="Mobile Number" required>
         </label>
         <label>
-            <input type="password" th:field="*{password}" name="password" placeholder="Password" required>
+            <input type="password" th:field="*{password}" id="password" name="password" placeholder="Password" required>
         </label>
         <label>
-            <input type="password" th:field="*{cpassword}" name="password" placeholder="Confirm Password" required>
+            <input type="password" th:field="*{cpassword}" id="confirmPassword" name="password" placeholder="Confirm Password" required>
         </label>
         <button type="submit">Register</button>
     </form>
     <p class="login-link" style="color: white;">Already have an account? <a href="/login" style="color: black;">Login</a></p>
 </div>
+
+<script>
+    function validateForm() {
+        var password = document.getElementById("password").value;
+        var confirmPassword = document.getElementById("confirmPassword").value;
+
+        if (password !== confirmPassword) {
+            alert("Passwords do not match");
+            return false;
+        }
+        return true;
+    }
+</script>
 
 </body>
 

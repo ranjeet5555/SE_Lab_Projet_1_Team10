@@ -79,6 +79,7 @@ public class UserController {
     public ModelAndView registerAuthor(@ModelAttribute("user") User user, HttpSession session) {
         // Check if the username already exists
         User existingUser = repo.findByUsername(user.getUsername());
+        User existingEmail = repo.findByEmail(user.getEmail());
         if (existingUser != null) {
             // Username already exists, set message and return to registration page
             session.setAttribute("message1", "Username already exists");
@@ -106,7 +107,7 @@ public class UserController {
             // If user exists and password matches, add user details to the model
             model.addAttribute("user", userData.get());
             currentuser=userData.get();
-            return new ModelAndView("profile");
+            return new ModelAndView("speaker_Dashboard");
         } else {
             // If user not found, set a message in session and redirect to login page
             session.setAttribute("message2", "User not found");
@@ -114,7 +115,12 @@ public class UserController {
         }
     }
 
-    @PostMapping("/logout")
+    @GetMapping("/dashboard")
+    public Object dashboard(){
+        return new ModelAndView("speaker_Dashboard");
+    }
+
+    @GetMapping("/logout")
     public Object logout(HttpServletRequest request, HttpServletResponse response) {
         SecurityContextHolder.clearContext(); // Clear security context
         request.getSession().invalidate(); // Invalidate session
