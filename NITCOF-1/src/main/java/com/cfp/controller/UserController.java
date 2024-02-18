@@ -34,7 +34,7 @@ public class UserController {
     }
 
     @GetMapping("/updateProfile/{username}")
-    public Object edit(@PathVariable String username, Model model) {
+    public Object edit(@PathVariable String username, @NotNull Model model) {
         // Retrieve the user by username
         User user = service.getUserByUsername(username);
 
@@ -47,7 +47,7 @@ public class UserController {
 
     @Transactional
     @PostMapping("/updateuserDetails")
-    public Object updateUserDetails(@ModelAttribute User updatedUser) {
+    public Object updateUserDetails(@ModelAttribute @NotNull User updatedUser) {
         // Save the updated user details
         //User savedUser = service.save(updatedUser);
         repo.updateuser(updatedUser.getUsername(),updatedUser.getName(),updatedUser.getPhone(),updatedUser.getEmail());
@@ -64,19 +64,19 @@ public class UserController {
     }
 
     @GetMapping("/profile")
-    public Object getprofile(Model model){
+    public Object getprofile(@NotNull Model model){
         model.addAttribute("user", currentuser);
         return new ModelAndView("profile");
     }
     @GetMapping("/signup")
-    public Object register(Model model) {
+    public Object register(@NotNull Model model) {
         User user = new User();
         model.addAttribute("user", user);
         return new ModelAndView("register");
     }
 
     @PostMapping("/registerUser")
-    public ModelAndView registerAuthor(@ModelAttribute("user") User user, HttpSession session) {
+    public ModelAndView registerAuthor(@ModelAttribute("user") @NotNull User user, HttpSession session) {
         // Check if the username already exists
         User existingUser = repo.findByUsername(user.getUsername());
         User existingEmail = repo.findByEmail(user.getEmail());
@@ -121,10 +121,10 @@ public class UserController {
     }
 
     @GetMapping("/logout")
-    public Object logout(HttpServletRequest request, HttpServletResponse response) {
+    public Object logout(@NotNull HttpServletRequest request, HttpServletResponse response) {
         SecurityContextHolder.clearContext(); // Clear security context
         request.getSession().invalidate(); // Invalidate session
-        return new ModelAndView("redirect:/login"); // Redirect to login page
+        return new ModelAndView("redirect:/"); // Redirect to login page
     }
 }
 

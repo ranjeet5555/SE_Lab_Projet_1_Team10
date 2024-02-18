@@ -21,6 +21,7 @@ public class Document {
     private Long size;
     @Column(name = "upload_time")
     private Date uploadTime;
+    @Lob
     private byte[] content;
 
 
