@@ -16,7 +16,7 @@
             margin: 0;
             font-family: 'Raleway', sans-serif;
             background: #B4D4FF;
-            color: #fff;
+            color: #fff; /* Change text color to black */
             overflow-x: hidden;
         }
 
@@ -57,6 +57,20 @@
         .feature-link:hover {
             color: #ffc107; /* Change to desired hover color */
         }
+
+        .uploaded-file {
+            font-size: 18px; /* Increase font size of list */
+            color: #000; /* Set text color to black */
+        }
+
+        .uploaded-file a {
+            color: blue; /* Set link text color to blue */
+            text-decoration: none;
+        }
+
+        .uploaded-file a:hover {
+            color: #ffc107; /* Change link hover color */
+        }
     </style>
 </head>
 
@@ -72,14 +86,26 @@
                 <nav>
                     <a href="/" th:href="@{/dashboard}" class="feature-link"><i class="fas fa-home profile-icon"></i> Home</a>
                     <a href="/" th:href="@{/profile}" class="feature-link"><i class="fas fa-user profile-icon"></i> Profile</a>
-                    <a href="/" th:href="@{/uploadhere}" class="feature-link"><i class="fas fa-file profile-icon"></i> Submissions</a>
-                    <a href="reviews.html" class="feature-link"><i class="fas fa-star profile-icon"></i> Reviews</a>
+                    <a href="/" th:href="@{/uploadhere}" class="feature-link"><i class="fas fa-file profile-icon"></i> Upload</a>
+                    <a href="/" th:href="@{/paper}" class="feature-link"><i class="fas fa-star profile-icon"></i> Reviews</a>
                     <a href="/" th:href="@{/logout}" class="feature-link"><i class="fas fa-sign-out-alt profile-icon"></i> Logout</a>
                 </nav>
             </div>
         </div>
     </div>
 </header>
+
+<div class="container">
+    <h1 style="color: black;">Uploaded Papers</h1>
+</div>
+
+<!-- Iterate over the list of uploaded files -->
+<div th:each="file : ${uploadedFiles}" class="uploaded-file">
+    <p>Title: <span th:text="${file.title}"></span></p>
+    <p><a th:href="@{${file.link}}" target="_blank">Click here to see the paper</a></p>
+    <p>Description: <span th:text="${file.tags}"></span></p>
+    <hr/>
+</div>
 
 </body>
 

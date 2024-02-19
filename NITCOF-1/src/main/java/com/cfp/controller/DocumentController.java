@@ -1,62 +1,41 @@
 package com.cfp.controller;
 
-import com.cfp.entity.Document;
-import com.cfp.repository.DocumentRepository;
-import jakarta.servlet.ServletOutputStream;
-import jakarta.servlet.http.HttpServletResponse;
+
+import com.cfp.entity.FileEntity;
+import com.cfp.repository.FileRepository;
+import jakarta.servlet.http.HttpSession;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.io.IOException;
 import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-
 
 @RestController
-//@RestController
 public class DocumentController {
     @Autowired
-    private DocumentRepository repo;
+    FileRepository repo;
     @GetMapping("/uploadhere")
-    public Object uploadDocument(@NotNull Model model){
-        List<Document> listDocs=repo.findAll();
-        model.addAttribute("listDocs",listDocs);
+    public Object register(@NotNull Model model) {
+        FileEntity file = new FileEntity();
+        model.addAttribute("file", file);
         return new ModelAndView("uploadedDoc");
+    }
 
+    @PostMapping("/uploadDoc")
+    public ModelAndView registerAuthor(@ModelAttribute("file") FileEntity file, HttpSession session) {
+        repo.save(file);
+        return new ModelAndView("redirect:/dashboard"); // Redirect to the dashboard page after upload
     }
-    @PostMapping("/upload")
-    public Object uploadFile(@RequestParam("document") @NotNull MultipartFile multipartFile, @NotNull RedirectAttributes ra ) throws IOException {
-        String filename= StringUtils.cleanPath(Objects.requireNonNull(multipartFile.getOriginalFilename()));
-        Document document=new Document();
-        document.setName(filename);
-        document.setContent(multipartFile.getBytes());
-        document.setSize(multipartFile.getSize());
-        repo.save(document);
-        ra.addFlashAttribute("message","The file has been uploaded successfully");
-        return new ModelAndView("redirect:/uploadhere");
-    }
-    @GetMapping("/downloaddoc")
-    public void downloadFile(@Param("id") Long id, HttpServletResponse response) throws Exception {
-        Optional<Document> result=repo.findById(id);
-        if(result.isEmpty()){
-            throw new Exception("Could not find document with ID: " + id);
-        }
-        Document document=result.get();
-        response.setContentType("application/octet-stream");
-        String headerKey="Content-Disposition";
-        String headerValue="attachment;filename=" + document.getName();
-        response.setHeader(headerKey,headerValue);
-        ServletOutputStream outputStream = response.getOutputStream();
-        outputStream.write(document.getContent());
-        outputStream.close();
+    @GetMapping("/dashboard")
+    public ModelAndView dashboard() {
+        List<FileEntity> uploadedFiles = repo.findAll();
+        ModelAndView modelAndView = new ModelAndView("speaker_Dashboard");
+        modelAndView.addObject("uploadedFiles", uploadedFiles);
+        return modelAndView;
     }
 }

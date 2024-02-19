@@ -1,6 +1,8 @@
 package com.cfp.controller;
 
+import com.cfp.entity.FileEntity;
 import com.cfp.entity.User;
+import com.cfp.repository.FileRepository;
 import com.cfp.repository.UserRepo;
 import com.cfp.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -16,6 +18,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.List;
 import java.util.Optional;
 
 //@Controller
@@ -26,6 +29,9 @@ public class UserController {
     private UserRepo repo;
     @Autowired
     private UserService service;
+
+    @Autowired
+    private FileRepository fileRepository;
 
     @GetMapping("/")
     public Object homepage(){
@@ -107,7 +113,7 @@ public class UserController {
             // If user exists and password matches, add user details to the model
             model.addAttribute("user", userData.get());
             currentuser=userData.get();
-            return new ModelAndView("speaker_Dashboard");
+            return new ModelAndView("redirect:/dashboard");
         } else {
             // If user not found, set a message in session and redirect to login page
             session.setAttribute("message2", "User not found");
@@ -115,10 +121,13 @@ public class UserController {
         }
     }
 
-    @GetMapping("/dashboard")
-    public Object dashboard(){
-        return new ModelAndView("speaker_Dashboard");
-    }
+//    @GetMapping("/dashboard")
+//    public Object dashboard(){
+//        List<FileEntity> uploadedFiles = repo.findAll();
+//        ModelAndView modelAndView = new ModelAndView("uploaded_paper");
+//        modelAndView.addObject("uploadedFiles", uploadedFiles);
+//        return modelAndView;
+//    }
 
     @GetMapping("/logout")
     public Object logout(@NotNull HttpServletRequest request, HttpServletResponse response) {
