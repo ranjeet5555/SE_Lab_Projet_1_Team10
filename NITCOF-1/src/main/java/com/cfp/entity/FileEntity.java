@@ -17,4 +17,7 @@ public class FileEntity {
     private String title;
     private String link;
     private String tags;
+    private String userid;
+
+
 }

@@ -3,7 +3,7 @@ package com.cfp.controller;
 import com.cfp.entity.FileEntity;
 import com.cfp.entity.User;
 import com.cfp.repository.FileRepository;
-import com.cfp.repository.UserRepo;
+import com.cfp.repository.UserRepository;
 import com.cfp.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -12,12 +12,12 @@ import jakarta.servlet.http.HttpSession;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,7 +26,7 @@ import java.util.Optional;
 public class UserController {
     User currentuser = new User();
     @Autowired
-    private UserRepo repo;
+    private UserRepository repo;
     @Autowired
     private UserService service;
 
@@ -49,6 +49,18 @@ public class UserController {
 
         // Return the view for editing the user profile
         return new ModelAndView("edit_user");
+    }
+
+    @GetMapping("/dashboard")
+    public ModelAndView dashboard() {
+        String currentUserName = currentuser.getUsername();
+
+        // Retrieve files uploaded by the current user
+        List<FileEntity> uploadedFiles = fileRepository.findByuserid(currentUserName);
+
+        ModelAndView modelAndView = new ModelAndView("speaker_Dashboard");
+        modelAndView.addObject("uploadedFiles", uploadedFiles);
+        return modelAndView;
     }
 
     @Transactional
