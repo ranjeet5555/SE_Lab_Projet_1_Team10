@@ -8,7 +8,6 @@ import com.cfp.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-//import jakarta.transaction.Transactional;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -17,11 +16,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.security.Principal;
+
 import java.util.List;
 import java.util.Optional;
 
-//@Controller
 @RestController
 public class UserController {
     User currentuser = new User();
@@ -39,16 +37,50 @@ public class UserController {
         return new ModelAndView("index");
     }
 
-    @GetMapping("/updateProfile/{username}")
-    public Object edit(@PathVariable String username, @NotNull Model model) {
-        // Retrieve the user by username
-        User user = service.getUserByUsername(username);
-
-        // Add the user object to the model
+    @GetMapping("/signup")
+    public Object register(@NotNull Model model) {
+        User user = new User();
         model.addAttribute("user", user);
+        return new ModelAndView("register");
+    }
 
-        // Return the view for editing the user profile
-        return new ModelAndView("edit_user");
+    @PostMapping("/registerUser")
+    public ModelAndView registerAuthor(@ModelAttribute("user") @NotNull User user, HttpSession session) {
+        // Check if the username already exists
+        User existingUser = repo.findByUsername(user.getUsername());
+        User existingEmail = repo.findByEmail(user.getEmail());
+        if (existingUser != null) {
+            // Username already exists, set message and return to registration page
+            session.setAttribute("message1", "Username already exists");
+            return new ModelAndView("redirect:/signup");
+        } else {
+            // Username does not exist, proceed with registration
+            service.registerUser(user);
+            session.setAttribute("message1", "Registration successful");
+            return new ModelAndView("redirect:/signup");
+        }
+    }
+
+    @GetMapping("/login")
+    public ModelAndView login() {
+        return new ModelAndView("login", "user", new User());
+    }
+
+    @PostMapping("/signing")
+    public ModelAndView loginAuthor(@ModelAttribute("user") @NotNull User user, Model model,HttpSession session) {
+        String userID = user.getUsername();
+        Optional<User> userData = Optional.ofNullable(repo.findByUsername(userID));
+
+        if (userData.isPresent() && user.getPassword().equals(userData.get().getPassword())) {
+            // If user exists and password matches, add user details to the model
+            model.addAttribute("user", userData.get());
+            currentuser=userData.get();
+            return new ModelAndView("redirect:/dashboard");
+        } else {
+            // If user not found, set a message in session and redirect to login page
+            session.setAttribute("message2", "User not found");
+            return new ModelAndView("redirect:/login");
+        }
     }
 
     @GetMapping("/dashboard")
@@ -61,6 +93,18 @@ public class UserController {
         ModelAndView modelAndView = new ModelAndView("speaker_Dashboard");
         modelAndView.addObject("uploadedFiles", uploadedFiles);
         return modelAndView;
+    }
+
+    @GetMapping("/updateProfile/{username}")
+    public Object edit(@PathVariable String username, @NotNull Model model) {
+        // Retrieve the user by username
+        User user = service.getUserByUsername(username);
+
+        // Add the user object to the model
+        model.addAttribute("user", user);
+
+        // Return the view for editing the user profile
+        return new ModelAndView("edit_user");
     }
 
     @Transactional
@@ -86,60 +130,7 @@ public class UserController {
         model.addAttribute("user", currentuser);
         return new ModelAndView("profile");
     }
-    @GetMapping("/signup")
-    public Object register(@NotNull Model model) {
-        User user = new User();
-        model.addAttribute("user", user);
-        return new ModelAndView("register");
-    }
 
-    @PostMapping("/registerUser")
-    public ModelAndView registerAuthor(@ModelAttribute("user") @NotNull User user, HttpSession session) {
-        // Check if the username already exists
-        User existingUser = repo.findByUsername(user.getUsername());
-        User existingEmail = repo.findByEmail(user.getEmail());
-        if (existingUser != null) {
-            // Username already exists, set message and return to registration page
-            session.setAttribute("message1", "Username already exists");
-            return new ModelAndView("redirect:/signup");
-        } else {
-            // Username does not exist, proceed with registration
-            service.registerUser(user);
-            session.setAttribute("message1", "Registration successful");
-            return new ModelAndView("redirect:/signup");
-        }
-    }
-
-
-    @GetMapping("/login")
-    public ModelAndView login() {
-        return new ModelAndView("login", "user", new User());
-    }
-
-    @PostMapping("/signing")
-    public ModelAndView loginAuthor(@ModelAttribute("user") @NotNull User user, Model model,HttpSession session) {
-        String userID = user.getUsername();
-        Optional<User> userData = Optional.ofNullable(repo.findByUsername(userID));
-
-        if (userData.isPresent() && user.getPassword().equals(userData.get().getPassword())) {
-            // If user exists and password matches, add user details to the model
-            model.addAttribute("user", userData.get());
-            currentuser=userData.get();
-            return new ModelAndView("redirect:/dashboard");
-        } else {
-            // If user not found, set a message in session and redirect to login page
-            session.setAttribute("message2", "User not found");
-            return new ModelAndView("redirect:/login");
-        }
-    }
-
-//    @GetMapping("/dashboard")
-//    public Object dashboard(){
-//        List<FileEntity> uploadedFiles = repo.findAll();
-//        ModelAndView modelAndView = new ModelAndView("uploaded_paper");
-//        modelAndView.addObject("uploadedFiles", uploadedFiles);
-//        return modelAndView;
-//    }
 
     @GetMapping("/logout")
     public Object logout(@NotNull HttpServletRequest request, HttpServletResponse response) {
