@@ -2,13 +2,10 @@ openapi: 3.0.1
 info:
   title: User Operations
   description: OpenAPI specification for User Operations
-  version: 1.0.0
-servers:
-- url: https://virtserver.swaggerhub.com/KSNAVODAYAN2005/User-Controller/1.0.0
-  description: SwaggerHub API Auto Mocking
+  version: "1.0.0"
 tags:
-- name: UserController
-  description: User Operations
+  - name: UserController
+    description: User Operations
 paths:
   /:
     get:
@@ -28,11 +25,14 @@ paths:
       summary: Register User
       description: Registers a new user.
       requestBody:
+        required: true
         content:
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/signup_body'
-        required: true
+              type: object
+              properties:
+                user:
+                  $ref: "#/components/schemas/User"
       responses:
         "200":
           description: Successful operation
@@ -47,11 +47,14 @@ paths:
       summary: User Login
       description: Authenticates a user.
       requestBody:
+        required: true
         content:
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/login_body'
-        required: true
+              type: object
+              properties:
+                user:
+                  $ref: "#/components/schemas/User"
       responses:
         "200":
           description: Successful operation
@@ -67,13 +70,11 @@ paths:
       summary: Edit User Profile
       description: Displays the form to edit user profile.
       parameters:
-      - name: username
-        in: path
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: string
+        - name: username
+          in: path
+          required: true
+          schema:
+            type: string
       responses:
         "200":
           description: Successful operation
@@ -82,11 +83,11 @@ paths:
       summary: Update User Details
       description: Updates the user profile details.
       requestBody:
+        required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/User'
-        required: true
+              $ref: "#/components/schemas/User"
       responses:
         "200":
           description: Successful operation
@@ -119,13 +120,7 @@ components:
           type: string
         phone:
           type: string
-    signup_body:
-      type: object
-      properties:
-        user:
-          $ref: '#/components/schemas/User'
-    login_body:
-      type: object
-      properties:
-        user:
-          $ref: '#/components/schemas/User'
+servers:
+  # Added by API Auto Mocking Plugin
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/KSNAVODAYAN2005/User-Controller/1.0.0
