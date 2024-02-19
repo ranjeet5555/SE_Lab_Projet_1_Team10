@@ -1,0 +1,51 @@
+---
+openapi: 3.0.1
+info:
+  title: Document Controller API
+  description: OpenAPI specification for Document Controller API
+  version: 1.0.0
+servers:
+- url: https://virtserver.swaggerhub.com/KSNAVODAYAN2005/DocumentConroller/1.0.0
+  description: SwaggerHub API Auto Mocking
+tags:
+- name: Document Controller
+  description: Endpoints for document management
+paths:
+  /uploadhere:
+    get:
+      tags:
+      - Document Controller
+      summary: Upload Document Page
+      description: Displays the page for uploading documents
+      responses:
+        "200":
+          description: Successful operation
+    post:
+      tags:
+      - Document Controller
+      summary: Upload Document
+      description: Endpoint to upload a document
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FileEntity'
+        required: true
+      responses:
+        "200":
+          description: Document uploaded successfully
+        "500":
+          description: Internal server error
+components:
+  schemas:
+    FileEntity:
+      type: object
+      properties:
+        title:
+          type: string
+        link:
+          type: string
+        tags:
+          type: string
+        userid:
+          type: string
