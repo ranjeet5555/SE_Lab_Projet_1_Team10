@@ -100,7 +100,8 @@
 </div>
 
 <!-- Iterate over the list of uploaded files -->
-<div th:each="file : ${uploadedFiles}" class="uploaded-file">
+<div th:each="file, iterStat : ${uploadedFiles}" class="uploaded-file">
+    <p> <strong>Paper: <span th:text="${iterStat.count}"></span></strong></p>
     <p>Title: <span th:text="${file.title}"></span></p>
     <p><a th:href="@{${file.link}}" target="_blank">Click here to see the paper</a></p>
     <p>Description: <span th:text="${file.tags}"></span></p>
