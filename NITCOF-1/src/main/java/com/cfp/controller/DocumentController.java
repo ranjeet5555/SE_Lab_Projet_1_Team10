@@ -1,61 +1,48 @@
 package com.cfp.controller;
 
-import com.cfp.entity.Document;
-import com.cfp.repository.DocumentRepository;
-import jakarta.servlet.ServletOutputStream;
-import jakarta.servlet.http.HttpServletResponse;
+import com.cfp.entity.FileEntity;
+import com.cfp.repository.FileRepository;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpSession;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
 import org.springframework.ui.Model;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import java.io.IOException;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import org.springframework.web.servlet.ModelAndView;
 
 @RestController
+@Tag(name = "Document Controller", description = "Endpoints for document management")
 public class DocumentController {
-    @Autowired
-    private DocumentRepository repo;
-    @GetMapping("/uploadhere")
-    public String uploadDocument(@NotNull Model model){
-        List<Document> listDocs=repo.findAll();
-        model.addAttribute("listDocs",listDocs);
-        return "uploadedDoc";
 
+    @Autowired
+    FileRepository fileRepository;
+
+    // Mapping for uploading document
+    @GetMapping("/uploadhere")
+    @Operation(summary = "Upload Document Page", description = "Displays the page for uploading documents")
+    public Object register(@NotNull Model model) {
+        // Prepare a new FileEntity object and add it to the model for upload form
+        FileEntity file = new FileEntity();
+        model.addAttribute("file", file);
+        return new ModelAndView("uploadedDoc"); // Return the view for document upload
     }
-    @PostMapping("/upload")
-    public String uploadFile(@RequestParam("document") @NotNull MultipartFile multipartFile, @NotNull RedirectAttributes ra ) throws IOException {
-        String filename= StringUtils.cleanPath(Objects.requireNonNull(multipartFile.getOriginalFilename()));
-        Document document=new Document();
-        document.setName(filename);
-        document.setContent(multipartFile.getBytes());
-        document.setSize(multipartFile.getSize());
-        repo.save(document);
-        ra.addFlashAttribute("message","The file has been uploaded successfully");
-        return "redirect:/uploadhere";
-    }
-    @GetMapping("/downloaddoc")
-    public void downloadFile(@Param("id") Long id, HttpServletResponse response) throws Exception {
-        Optional<Document> result=repo.findById(id);
-        if(result.isEmpty()){
-            throw new Exception("Could not find document with ID: " + id);
-        }
-        Document document=result.get();
-        response.setContentType("application/octet-stream");
-        String headerKey="Content-Disposition";
-        String headerValue="attachment;filename=" + document.getName();
-        response.setHeader(headerKey,headerValue);
-        ServletOutputStream outputStream = response.getOutputStream();
-        outputStream.write(document.getContent());
-        outputStream.close();
+
+    // Mapping for processing document upload
+    @PostMapping("/uploadDoc")
+    @Operation(summary = "Upload Document", description = "Endpoint to upload a document")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Document uploaded successfully"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
+    public ModelAndView registerAuthor(@ModelAttribute("file") FileEntity file, HttpSession session) {
+        // Save the uploaded document
+        fileRepository.save(file);
+        return new ModelAndView("redirect:/dashboard"); // Redirect to the dashboard page after upload
     }
 }

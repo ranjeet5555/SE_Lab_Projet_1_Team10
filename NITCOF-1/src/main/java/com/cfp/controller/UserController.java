@@ -1,77 +1,147 @@
 package com.cfp.controller;
 
+import com.cfp.entity.FileEntity;
 import com.cfp.entity.User;
-import com.cfp.repository.UserRepo;
+import com.cfp.repository.FileRepository;
+import com.cfp.repository.UserRepository;
 import com.cfp.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
+@Tag(name = "UserController", description = "User Operations")
 public class UserController {
+
+    User currentuser = new User();
+
     @Autowired
-    private UserRepo repo;
+    private UserRepository repo;
+
     @Autowired
     private UserService service;
 
+    @Autowired
+    private FileRepository fileRepository;
+
+    // Homepage
     @GetMapping("/")
-    public String homepage(){
-        return "index";
+    @Operation(summary = "Homepage", description = "Redirects to the homepage.")
+    public Object homepage() {
+        return new ModelAndView("index");
     }
 
-    @GetMapping("/edituser/{id}")
-    public String edit(@PathVariable int id, Model m){
-        User user = service.getuserById(id);
-        m.addAttribute( "user", user);
-        return "edit_user";
-    }
-
-    @GetMapping("/updateuserDetails")
-    public String updateuser(@ModelAttribute User user, HttpSession session){
-        User updateuser = service.save(user);
-
-        if(updateuser != null){
-            session.setAttribute("msg","Update successfully");
-        }
-        else{
-            session.setAttribute("msg","something wrong on server");
-        }
-
-        return "redirect:/";
-    }
-    
+    // User Registration Page
     @GetMapping("/signup")
-    public String register(@org.jetbrains.annotations.NotNull Model model){
-        User user=new User();
-        model.addAttribute("user",user);
-        return "register";
+    @Operation(summary = "User Registration Page", description = "Displays the registration page for users.")
+    public Object register(@NotNull Model model) {
+        User user = new User();
+        model.addAttribute("user", user);
+        return new ModelAndView("register");
     }
+
+    // Register User
     @PostMapping("/registerUser")
-    public String registerAuthor(@ModelAttribute("user") User user){
-        service.registerUser(user);
-        return "login";
+    @Operation(summary = "Register User", description = "Registers a new user.")
+    @ApiResponse(responseCode = "200", description = "Registration successful")
+    @ApiResponse(responseCode = "400", description = "Username already exists")
+    public ModelAndView registerAuthor(@ModelAttribute("user") @NotNull User user, HttpSession session) {
+        User existingUser = repo.findByUsername(user.getUsername());
+        User existingEmail = repo.findByEmail(user.getEmail());
+        if (existingUser != null) {
+            session.setAttribute("message1", "Username already exists");
+            return new ModelAndView("redirect:/signup");
+        } else {
+            service.registerUser(user);
+            session.setAttribute("message1", "Registration successful");
+            return new ModelAndView("redirect:/signup");
+        }
     }
+
+    // Login Page
     @GetMapping("/login")
-    public String login(@NotNull Model model){
-        User user=new User();
-        model.addAttribute("user",user);
-        return "login";
+    @Operation(summary = "Login Page", description = "Displays the login page.")
+    public ModelAndView login() {
+        return new ModelAndView("login", "user", new User());
     }
+
+    // User Login
     @PostMapping("/signing")
-    public String loginAuthor(@ModelAttribute("user") @NotNull User user){
-        String userID=user.getUsername();
-        Optional<User> data= Optional.ofNullable(repo.findByusername(userID));
-        if(user.getPassword().equals(data.get().getPassword())){
-            return "speaker_Dashboard";
+    @Operation(summary = "User Login", description = "Authenticates a user.")
+    @ApiResponse(responseCode = "200", description = "User authenticated successfully")
+    @ApiResponse(responseCode = "302", description = "User not found")
+    public ModelAndView loginAuthor(@ModelAttribute("user") @NotNull User user, Model model, HttpSession session) {
+        String userID = user.getUsername();
+        Optional<User> userData = Optional.ofNullable(repo.findByUsername(userID));
+
+        if (userData.isPresent() && user.getPassword().equals(userData.get().getPassword())) {
+            model.addAttribute("user", userData.get());
+            currentuser = userData.get();
+            return new ModelAndView("redirect:/dashboard");
+        } else {
+            session.setAttribute("message2", "User not found");
+            return new ModelAndView("redirect:/login");
         }
-        else{
-            return "register";
-        }
+    }
+
+    // User Dashboard
+    @GetMapping("/dashboard")
+    @Operation(summary = "User Dashboard", description = "Displays the user dashboard.")
+    public ModelAndView dashboard() {
+        String currentUserName = currentuser.getUsername();
+        List<FileEntity> uploadedFiles = fileRepository.findByuserid(currentUserName);
+        ModelAndView modelAndView = new ModelAndView("speaker_Dashboard");
+        modelAndView.addObject("uploadedFiles", uploadedFiles);
+        return modelAndView;
+    }
+
+    // Edit User Profile
+    @GetMapping("/updateProfile/{username}")
+    @Operation(summary = "Edit User Profile", description = "Displays the form to edit user profile.")
+    public Object edit(@PathVariable String username, @NotNull Model model) {
+        User user = service.getUserByUsername(username);
+        model.addAttribute("user", user);
+        return new ModelAndView("edit_user");
+    }
+
+    // Update User Details
+    @Transactional
+    @PostMapping("/updateuserDetails")
+    @Operation(summary = "Update User Details", description = "Updates the user profile details.")
+    public Object updateUserDetails(@ModelAttribute @NotNull User updatedUser) {
+        repo.updateuser(updatedUser.getUsername(), updatedUser.getName(), updatedUser.getPhone(), updatedUser.getEmail());
+        Optional<User> userData = Optional.ofNullable(repo.findByUsername(updatedUser.getUsername()));
+        userData.ifPresent(user -> currentuser = user);
+        return new ModelAndView("redirect:/profile");
+    }
+
+    // User Profile
+    @GetMapping("/profile")
+    @Operation(summary = "User Profile", description = "Displays the user profile.")
+    public Object getprofile(@NotNull Model model) {
+        model.addAttribute("user", currentuser);
+        return new ModelAndView("profile");
+    }
+
+    // Logout
+    @GetMapping("/logout")
+    @Operation(summary = "Logout", description = "Logs out the user.")
+    public Object logout(@NotNull HttpServletRequest request, HttpServletResponse response) {
+        SecurityContextHolder.clearContext();
+        request.getSession().invalidate();
+        return new ModelAndView("redirect:/");
     }
 }
-

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NITCONF Speaker Dashboard</title>
+    <title>User Profile - Speaker Dashboard</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&family=Roboto:wght@400;700&display=swap">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
           integrity="sha512-KyZXEAg3QhqLMpMIHdGQ8tNqQJ2z9qgx4lUAf3/70p5p1K6L6p61Upc9lEmntqXuSgyjgTFPKvmqD2U6u3/eGg=="
@@ -16,15 +16,22 @@
             margin: 0;
             font-family: 'Raleway', sans-serif;
             background: #B4D4FF;
-            color: #fff; /* Change text color to black */
+            color: #fff;
             overflow-x: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
         }
 
         header {
             background: linear-gradient(90deg, #2980b9, #2c3e50);
             padding: 20px;
-            margin: auto;
-
+            width: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1000;
         }
 
         .header-content {
@@ -58,18 +65,29 @@
             color: #ffc107; /* Change to desired hover color */
         }
 
-        .uploaded-file {
-            font-size: 18px; /* Increase font size of list */
-            color: #000; /* Set text color to black */
+        .profile-container {
+            background: linear-gradient(90deg, #2980b9, #2c3e50);
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 400px;
+            width: 100%;
+            color: #fff;
+            font-size: 18px; /* Increase font size */
         }
 
-        .uploaded-file a {
-            color: blue; /* Set link text color to blue */
-            text-decoration: none;
+        h2 {
+            margin-bottom: 20px;
         }
 
-        .uploaded-file a:hover {
-            color: #ffc107; /* Change link hover color */
+        .user-detail {
+            margin-bottom: 10px;
+            text-align: left;
+        }
+
+        .user-detail label {
+            font-weight: bold;
         }
     </style>
 </head>
@@ -95,17 +113,26 @@
     </div>
 </header>
 
-<div class="container">
-    <h1 style="color: black;">Uploaded Papers</h1>
-</div>
+<div class="profile-container">
+    <h2>User Profile</h2>
+    <div class="user-detail">
+        <label>Username:</label>
+        <span th:text="${user.username}"></span>
+    </div>
+    <div class="user-detail">
+        <label>Name:</label>
+        <span th:text="${user.name}"></span>
+    </div>
+    <div class="user-detail">
+        <label>Phone:</label>
+        <span th:text="${user.phone}"></span>
+    </div>
+    <div class="user-detail">
+        <label>Email:</label>
+        <span th:text="${user.email}"></span>
+    </div>
 
-<!-- Iterate over the list of uploaded files -->
-<div th:each="file, iterStat : ${uploadedFiles}" class="uploaded-file">
-    <p> <strong>Paper: <span th:text="${iterStat.count}"></span></strong></p>
-    <p>Title: <span th:text="${file.title}"></span></p>
-    <p><a th:href="@{${file.link}}" target="_blank">Click here to see the paper</a></p>
-    <p>Description: <span th:text="${file.tags}"></span></p>
-    <hr/>
+    <a th:href="@{/updateProfile/{username}(username=${user.username})}" class="btn btn-primary">Update Profile</a> <!-- Add Bootstrap style to update profile button -->
 </div>
 
 </body>

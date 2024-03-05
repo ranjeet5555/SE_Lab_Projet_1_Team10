@@ -1,57 +1,62 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="https://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Your Homepage</title>
-
-  <!-- Bootstrap CSS -->
+  <title>NITCONF Speaker Dashboard</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&family=Roboto:wght@400;700&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+        integrity="sha512-KyZXEAg3QhqLMpMIHdGQ8tNqQJ2z9qgx4lUAf3/70p5p1K6L6p61Upc9lEmntqXuSgyjgTFPKvmqD2U6u3/eGg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <!-- Bootstrap CDN -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-
   <style>
     body {
-        font-family: 'Roboto', sans-serif;
         margin: 0;
-        padding: 0;
-        background-color: #f8f9fa;
+        font-family: 'Raleway', sans-serif;
+        background: #B4D4FF;
+        color: #fff;
+        overflow-x: hidden;
     }
 
     header {
-        background-color: #343a40;
-        color: white;
-        padding: 15px 20px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
+        background: linear-gradient(90deg, #2980b9, #2c3e50);
+        padding: 20px;
+        margin: auto;
     }
 
-    #logo {
-        font-size: 24px;
-        font-weight: bold;
+    .hu {
+        text-align: left;
+        margin: 0;
+        padding: 0;
+        margin-right: 20px; /* Adjust margin-right as needed */
     }
 
-    #login-btn, #register-btn {
+    .sign-in-btn,
+    .register-btn {
         padding: 10px 20px;
         margin-left: 10px;
     }
   </style>
 </head>
+
 <body>
 
 <header>
-  <div id="logo">NITCONF</div>
-  <div>
-    <a href="/" th:href="@{/login}" class="btn btn-success" id="login-btn">Login</a>
-    <a href="/" th:href="@{/signup}" class="btn btn-primary" id="register-btn">Register</a>
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-md-8">
+        <h1 class="hu"><b>NITCONF</b></h1>
+      </div>
+      <div class="col-md-4 text-right">
+        <a href="/" th:href="@{/login}" class="btn btn-primary sign-in-btn"><i class="fas fa-sign-in-alt"></i> Sign In</a>
+        <a href="/" th:href="@{/signup}" class="btn btn-success register-btn"><i class="fas fa-user-plus"></i> Register</a>
+      </div>
+    </div>
   </div>
 </header>
 
-<!-- Your homepage content goes here -->
-
-<!-- Bootstrap JS and Popper.js -->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
-</html>
 
+</html>

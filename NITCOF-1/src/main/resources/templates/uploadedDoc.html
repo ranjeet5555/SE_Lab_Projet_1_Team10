@@ -1,49 +1,114 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="https://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
-    <title>Document manager</title>
-    <link rel="stylesheet" href="/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - Speaker Dashboard</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background: #B4D4FF;
+        }
+
+        .registration-container {
+            background: linear-gradient(90deg, #2980b9, #2c3e50);
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 400px;
+            width: 100%;
+        }
+
+        h2 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .input-group {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        .input-group label {
+            width: 48%; /* Adjust as needed */
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        .login-link {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #555;
+        }
+    </style>
 </head>
+
 <body>
-    <div class="container-fluid text-center">
-        <div>
 
-        </div>
-        <h1>Document Managaer</h1>
-        <div class="text-success">
-            <h3>[[${message}]]</h3>
-        </div>
-<!--        <div class="row border rounded">-->
-<!--            <th:block th:each="doc : ${listDocs}">-->
-<!--                <div class="col">-->
+<div class="registration-container">
+    <h2>Upload your Paper</h2>
 
-<!--                    <div>-->
-<!--                        [[${doc.name}]]-->
-<!--                    </div>-->
-
-
-<!--                </div>-->
-
-<!--            </th:block>-->
-<!--        </div>-->
-        <form th:action="@{/upload}" method="post" enctype="multipart/form-data" style="max-width : 600px,margin : 0 auto">
-            <div class="border rounded m-3">
-
-                <div>
-                    <h2>upload your file</h2>
-                </div>
-
-                <p>
-                    <input type="file" name="document" required />
-                </p>
-                <p>
-                    <input type="submit" value="Upload" class="btn-btn-primary"/>
-                </p>
+    <form id="registrationForm" th:action="@{/uploadDoc}" th:object="${file}" method="post">
+        <div class="input-group">
+            <div class="input-row">
+                <label>
+                    <input type="text" th:field="*{userid}" name="userid" placeholder="UserId" required>
+                </label>
             </div>
-        </form>
-
-    </div>
+            <div class="input-row">
+                <label>
+                    <input type="text" th:field="*{title}" name="title" placeholder="Title" required>
+                </label>
+            </div>
+            <div class="input-row">
+                <label>
+                    <input type="text" th:field="*{link}" name="link" placeholder="Link" required>
+                </label>
+            </div>
+        </div>
+        <label>
+            <textarea th:field="*{tags}" name="tags" placeholder="Description" rows="4" required></textarea>
+        </label>
+        <button type="submit">Upload</button>
+    </form>
+    <!--    <p class="login-link" style="color: white;">Already have an account? <a href="/login" style="color: black;">Login</a></p>-->
+</div>
 
 </body>
+
 </html>
