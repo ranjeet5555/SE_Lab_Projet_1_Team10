@@ -1,4 +1,4 @@
-package com.cfp;
+package com.cfp.testcase;
 
 import com.cfp.controller.HomeController;
 import com.cfp.controller.UserController;
@@ -77,7 +77,43 @@ class UserControllerTest {
         ModelAndView modelAndView = userController.LoginAuthor(user, model, session);
         assertEquals("redirect:/dashboard", modelAndView.getViewName());
     }
+    @Test
+    void testExistingUser() {
+        String existingUsername = "existingUser";
+        User existingUser = new User();
+        existingUser.setUsername(existingUsername);
 
+        // Mocking UserRepository behavior to return an existing user
+        when(userRepository.findByUsername(existingUsername)).thenReturn(existingUser);
+
+        // Calling the method under test
+        ModelAndView modelAndView = userController.LoginPage();
+
+        // Verifying the behavior
+        assertEquals("login", modelAndView.getViewName());
+    }
+    // Test case to check for an existing user before registration
+    @Test
+    void testExistingUserBeforeRegistration() {
+        String existingUsername = "existingUser";
+        User existingUser = new User();
+        existingUser.setUsername(existingUsername);
+
+        // Mocking UserRepository behavior to return an existing user
+        when(userRepository.findByUsername(existingUsername)).thenReturn(existingUser);
+
+        // Creating a new user with an existing username
+        User newUser = new User();
+        newUser.setUsername(existingUsername);
+
+        HttpSession session = mock(HttpSession.class);
+
+        // Calling the method under test
+        ModelAndView modelAndView = userController.RegisterAuthor(newUser, session);
+
+        // Verifying the behavior
+        assertEquals("redirect:/signup", modelAndView.getViewName());
+    }
     @Test
     void testDashboard() {
         String currentUserName = "username";

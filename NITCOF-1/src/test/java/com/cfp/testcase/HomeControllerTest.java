@@ -1,4 +1,4 @@
-package com.cfp;
+package com.cfp.testcase;
 
 import com.cfp.controller.HomeController;
 import org.junit.jupiter.api.Test;
