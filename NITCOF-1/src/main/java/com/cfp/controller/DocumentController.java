@@ -45,4 +45,10 @@ public class DocumentController {
         fileRepository.save(file);
         return new ModelAndView("redirect:/dashboard"); // Redirect to the dashboard page after upload
     }
+
+    //mapping for uploaded_paper
+    @GetMapping("/uploaded_paper")
+    public Object Papers() {
+        return new ModelAndView("uploaded_paper");
+    }
 }
