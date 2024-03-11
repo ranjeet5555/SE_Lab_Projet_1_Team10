@@ -18,6 +18,8 @@ public class FileEntity {
     private String link;
     private String tags;
     private String userid;
+    private String comment;
+    private String status;
 
 
 }
