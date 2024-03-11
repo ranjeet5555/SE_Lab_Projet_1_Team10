@@ -37,12 +37,7 @@ public class UserController {
     @Autowired
     private FileRepository fileRepository;
 
-    // Homepage
-    @GetMapping("/")
-    @Operation(summary = "Homepage", description = "Redirects to the homepage.")
-    public Object HomePage() {
-        return new ModelAndView("index");
-    }
+
 
     // User Registration Page
     @GetMapping("/signup")

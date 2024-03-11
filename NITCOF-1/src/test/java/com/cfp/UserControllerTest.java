@@ -1,5 +1,6 @@
 package com.cfp;
 
+import com.cfp.controller.HomeController;
 import com.cfp.controller.UserController;
 import com.cfp.entity.FileEntity;
 import com.cfp.entity.User;
@@ -40,12 +41,7 @@ class UserControllerTest {
         MockitoAnnotations.openMocks(this);
     }
 
-    @Test
-    void testHomePage() {
-        Object result = userController.HomePage();
-        assertEquals(ModelAndView.class, result.getClass());
-        assertEquals("index", ((ModelAndView) result).getViewName());
-    }
+
 
     @Test
     void testRegistrationPage() {
@@ -119,7 +115,7 @@ class UserControllerTest {
 
     @Test
     void testLogout() {
-        Object result = userController.HomePage();
+        Object result = HomeController.HomePage();
         assertEquals(ModelAndView.class, result.getClass());
         assertEquals("index", ((ModelAndView) result).getViewName());
     }
