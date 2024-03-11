@@ -26,7 +26,7 @@ public class DocumentController {
     // Mapping for uploading document
     @GetMapping("/uploadhere")
     @Operation(summary = "Upload Document Page", description = "Displays the page for uploading documents")
-    public Object register(@NotNull Model model) {
+    public Object UploadPage(@NotNull Model model) {
         // Prepare a new FileEntity object and add it to the model for upload form
         FileEntity file = new FileEntity();
         model.addAttribute("file", file);
@@ -40,7 +40,7 @@ public class DocumentController {
             @ApiResponse(responseCode = "200", description = "Document uploaded successfully"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    public ModelAndView registerAuthor(@ModelAttribute("file") FileEntity file, HttpSession session) {
+    public ModelAndView UploadedPaper(@ModelAttribute("file") FileEntity file, HttpSession session) {
         // Save the uploaded document
         fileRepository.save(file);
         return new ModelAndView("redirect:/dashboard"); // Redirect to the dashboard page after upload

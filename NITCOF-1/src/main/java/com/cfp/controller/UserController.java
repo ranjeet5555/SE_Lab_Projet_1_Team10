@@ -40,14 +40,14 @@ public class UserController {
     // Homepage
     @GetMapping("/")
     @Operation(summary = "Homepage", description = "Redirects to the homepage.")
-    public Object homepage() {
+    public Object HomePage() {
         return new ModelAndView("index");
     }
 
     // User Registration Page
     @GetMapping("/signup")
     @Operation(summary = "User Registration Page", description = "Displays the registration page for users.")
-    public Object register(@NotNull Model model) {
+    public Object RegistrationPage(@NotNull Model model) {
         User user = new User();
         model.addAttribute("user", user);
         return new ModelAndView("register");
@@ -58,7 +58,7 @@ public class UserController {
     @Operation(summary = "Register User", description = "Registers a new user.")
     @ApiResponse(responseCode = "200", description = "Registration successful")
     @ApiResponse(responseCode = "400", description = "Username already exists")
-    public ModelAndView registerAuthor(@ModelAttribute("user") @NotNull User user, HttpSession session) {
+    public ModelAndView RegisterAuthor(@ModelAttribute("user") @NotNull User user, HttpSession session) {
         User existingUser = repo.findByUsername(user.getUsername());
         User existingEmail = repo.findByEmail(user.getEmail());
         if (existingUser != null) {
@@ -74,7 +74,7 @@ public class UserController {
     // Login Page
     @GetMapping("/login")
     @Operation(summary = "Login Page", description = "Displays the login page.")
-    public ModelAndView login() {
+    public ModelAndView LoginPage() {
         return new ModelAndView("login", "user", new User());
     }
 
@@ -83,7 +83,7 @@ public class UserController {
     @Operation(summary = "User Login", description = "Authenticates a user.")
     @ApiResponse(responseCode = "200", description = "User authenticated successfully")
     @ApiResponse(responseCode = "302", description = "User not found")
-    public ModelAndView loginAuthor(@ModelAttribute("user") @NotNull User user, Model model, HttpSession session) {
+    public ModelAndView LoginAuthor(@ModelAttribute("user") @NotNull User user, Model model, HttpSession session) {
         String userID = user.getUsername();
         Optional<User> userData = Optional.ofNullable(repo.findByUsername(userID));
 
@@ -100,7 +100,7 @@ public class UserController {
     // User Dashboard
     @GetMapping("/dashboard")
     @Operation(summary = "User Dashboard", description = "Displays the user dashboard.")
-    public ModelAndView dashboard() {
+    public ModelAndView Dashboard() {
         String currentUserName = currentuser.getUsername();
         List<FileEntity> uploadedFiles = fileRepository.findByuserid(currentUserName);
         ModelAndView modelAndView = new ModelAndView("speaker_Dashboard");
@@ -111,7 +111,7 @@ public class UserController {
     // Edit User Profile
     @GetMapping("/updateProfile/{username}")
     @Operation(summary = "Edit User Profile", description = "Displays the form to edit user profile.")
-    public Object edit(@PathVariable String username, @NotNull Model model) {
+    public Object Edit(@PathVariable String username, @NotNull Model model) {
         User user = service.getUserByUsername(username);
         model.addAttribute("user", user);
         return new ModelAndView("edit_user");
@@ -121,7 +121,7 @@ public class UserController {
     @Transactional
     @PostMapping("/updateuserDetails")
     @Operation(summary = "Update User Details", description = "Updates the user profile details.")
-    public Object updateUserDetails(@ModelAttribute @NotNull User updatedUser) {
+    public Object UpdateUserDetails(@ModelAttribute @NotNull User updatedUser) {
         repo.updateuser(updatedUser.getUsername(), updatedUser.getName(), updatedUser.getPhone(), updatedUser.getEmail());
         Optional<User> userData = Optional.ofNullable(repo.findByUsername(updatedUser.getUsername()));
         userData.ifPresent(user -> currentuser = user);
@@ -131,7 +131,7 @@ public class UserController {
     // User Profile
     @GetMapping("/profile")
     @Operation(summary = "User Profile", description = "Displays the user profile.")
-    public Object getprofile(@NotNull Model model) {
+    public Object GetProfile(@NotNull Model model) {
         model.addAttribute("user", currentuser);
         return new ModelAndView("profile");
     }
@@ -139,7 +139,7 @@ public class UserController {
     // Logout
     @GetMapping("/logout")
     @Operation(summary = "Logout", description = "Logs out the user.")
-    public Object logout(@NotNull HttpServletRequest request, HttpServletResponse response) {
+    public Object Logout(@NotNull HttpServletRequest request, HttpServletResponse response) {
         SecurityContextHolder.clearContext();
         request.getSession().invalidate();
         return new ModelAndView("redirect:/");
