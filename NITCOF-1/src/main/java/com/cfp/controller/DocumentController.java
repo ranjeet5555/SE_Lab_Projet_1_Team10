@@ -46,10 +46,6 @@ public class DocumentController {
         return new ModelAndView("redirect:/dashboard"); // Redirect to the dashboard page after upload
     }
 
-    //mapping for uploaded_paper
-    @GetMapping("/paper")
-    public Object Papers() {
-        return new ModelAndView("uploaded_paper");
-    }
+   
 
 }
