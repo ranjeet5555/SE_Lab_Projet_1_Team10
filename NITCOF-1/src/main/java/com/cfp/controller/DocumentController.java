@@ -51,4 +51,5 @@ public class DocumentController {
     public Object Papers() {
         return new ModelAndView("uploaded_paper");
     }
+
 }

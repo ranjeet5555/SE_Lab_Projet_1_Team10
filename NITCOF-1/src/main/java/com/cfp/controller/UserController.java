@@ -139,9 +139,7 @@ public class UserController {
     // Logout
     @GetMapping("/logout")
     @Operation(summary = "Logout", description = "Logs out the user.")
-    public Object Logout(@NotNull HttpServletRequest request, HttpServletResponse response) {
-        SecurityContextHolder.clearContext();
-        request.getSession().invalidate();
+    public Object Logout() {
         return new ModelAndView("redirect:/");
     }
 }
