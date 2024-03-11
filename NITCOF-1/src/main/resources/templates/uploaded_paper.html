@@ -1,23 +1,117 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Speaker Dashboard</title>
+    <title>NITCONF Speaker Dashboard</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&family=Roboto:wght@400;700&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+          integrity="sha512-KyZXEAg3QhqLMpMIHdGQ8tNqQJ2z9qgx4lUAf3/70p5p1K6L6p61Upc9lEmntqXuSgyjgTFPKvmqD2U6u3/eGg=="
+          crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Bootstrap CDN -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Raleway', sans-serif;
+            background: #B4D4FF;
+            color: #fff; /* Change text color to black */
+            overflow-x: hidden;
+        }
+
+        header {
+            background: linear-gradient(90deg, #2980b9, #2c3e50);
+            padding: 20px;
+            margin: auto;
+
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .hu {
+            text-align: left;
+            margin: 0;
+            padding: 0;
+            margin-right: 20px; /* Adjust margin-right as needed */
+        }
+
+        .profile-icon,
+        .logout-icon {
+            color: #fff;
+            font-size: 24px;
+            cursor: pointer;
+            margin: 0 10px;
+        }
+
+        .feature-link {
+            color: #fff;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .feature-link:hover {
+            color: #ffc107; /* Change to desired hover color */
+        }
+
+        .uploaded-file {
+            font-size: 18px; /* Increase font size of list */
+            color: #000; /* Set text color to black */
+        }
+
+        .uploaded-file a {
+            color: blue; /* Set link text color to blue */
+            text-decoration: none;
+        }
+
+        .uploaded-file a:hover {
+            color: #ffc107; /* Change link hover color */
+        }
+    </style>
 </head>
 
 <body>
-<h1>Uploaded Files</h1>
+
+<header>
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <h1 class="hu"><b>NITCONF </b>Speaker Dashboard</h1>
+            </div>
+            <div class="col-md-6 text-right"> <!-- Align feature links to the right -->
+                <nav>
+                    <a href="/" th:href="@{/dashboard}" class="feature-link"><i class="fas fa-home profile-icon"></i> Home</a>
+                    <a href="/" th:href="@{/profile}" class="feature-link"><i class="fas fa-user profile-icon"></i> Profile</a>
+                    <a href="/" th:href="@{/uploadhere}" class="feature-link"><i class="fas fa-file profile-icon"></i> Upload</a>
+                    <a href="/" th:href="@{/paper}" class="feature-link"><i class="fas fa-star profile-icon"></i> Reviews</a>
+                    <a href="/" th:href="@{/logout}" class="feature-link"><i class="fas fa-sign-out-alt profile-icon"></i> Logout</a>
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+<div class="container">
+    <h1 style="color: black;">Uploaded Papers</h1>
+</div>
 
 <!-- Iterate over the list of uploaded files -->
-<div th:each="file : ${uploadedFiles}">
+<div th:each="file, iterStat : ${uploadedFiles}" class="uploaded-file">
+    <p><strong>Paper: <span th:text="${iterStat.count}"></span></strong></p>
     <p>Title: <span th:text="${file.title}"></span></p>
-    <p>Link: <a th:href="@{${file.link}}" th:text="${file.link}"></a></p>
-    <p>Tags: <span th:text="${file.tags}"></span></p>
+    <p><a th:href="@{${file.link}}" target="_blank">Click here to see the paper</a></p>
+    <p>Description: <span th:text="${file.tags}"></span></p>
+    <p>Status:
+        <span th:text="${file.status == 'accepted'} ? 'Accepted' : (${file.status == 'rejected'} ? 'Resubmit' : 'Pending')"></span>
+    </p>
     <hr/>
 </div>
+
+
 </body>
 
 </html>
