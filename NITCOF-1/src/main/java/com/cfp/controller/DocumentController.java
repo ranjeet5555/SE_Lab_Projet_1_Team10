@@ -47,7 +47,7 @@ public class DocumentController {
     }
 
     //mapping for uploaded_paper
-    @GetMapping("/uploaded_paper")
+    @GetMapping("/paper")
     public Object Papers() {
         return new ModelAndView("uploaded_paper");
     }
