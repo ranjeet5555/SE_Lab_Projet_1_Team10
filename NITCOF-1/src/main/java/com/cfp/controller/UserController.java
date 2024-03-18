@@ -102,6 +102,15 @@ public class UserController {
         modelAndView.addObject("uploadedFiles", uploadedFiles);
         return modelAndView;
     }
+    //mapping for uploaded_paper
+    @GetMapping("/paper")
+    public Object Papers() {
+        String currentUserName = currentuser.getUsername();
+        List<FileEntity> uploadedFiles = fileRepository.findByuserid(currentUserName);
+        ModelAndView modelAndView = new ModelAndView("uploaded_paper");
+        modelAndView.addObject("uploadedFiles", uploadedFiles);
+        return modelAndView;
+    }
 
     // Edit User Profile
     @GetMapping("/updateProfile/{username}")

@@ -108,6 +108,7 @@
     <p>Status:
         <span th:text="${file.status == 'accepted'} ? 'Accepted' : (${file.status == 'rejected'} ? 'Resubmit' : 'Pending')"></span>
     </p>
+    <p>Comment: <span th:text="${file.comment}"></span></p>
     <hr/>
 </div>
 
