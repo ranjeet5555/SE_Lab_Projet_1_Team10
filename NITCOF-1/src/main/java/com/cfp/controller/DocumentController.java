@@ -46,6 +46,4 @@ public class DocumentController {
         return new ModelAndView("redirect:/dashboard"); // Redirect to the dashboard page after upload
     }
 
-   
-
 }
