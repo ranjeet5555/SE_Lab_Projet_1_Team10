@@ -20,12 +20,9 @@ jobs:
       with:
         java-version: '21'
         distribution: 'adopt'
-        
-    - name: Navigate to project directory
-      run: cd NITCOF-1
       
     - name: Build with Maven
-      run: mvn -B package --file pom.xml
+      run: mvn -B package --file NITCOF-1/pom.xml
       
     - name: Run tests
       run: mvn test # Assuming your tests are configured in the standard Maven directory structure
