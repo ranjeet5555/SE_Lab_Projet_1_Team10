@@ -26,7 +26,7 @@ jobs:
     - name: Build project with Maven
       run: |
         cd NITCOF-1
-        mvn -B package --file pom.xml
+        mvn -B package --file pom.xml 
     - name: Run Tests
       run: |
         cd NITCOF-1
